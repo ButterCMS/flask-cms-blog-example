@@ -1,0 +1,15 @@
+{% extends "blog.html" %}
+
+{% block content %}
+<a href="{{ url_for('blog.home') }}">Blog Home</a>
+<h3>{{ post.title }}</h3>
+<h5>By <a href="{{ url_for('blog.show_author', author_slug=post.author.slug) }}">{{ post.author.first_name }} {{ post.author.last_name }}</a></h5>
+<h6>Posted in 
+{% for category in post.categories %}
+<a href="{{ url_for('blog.show_category', category_slug=category.slug) }}">{{category.name}}</a>
+{% endfor %}
+</h6>
+    
+
+<p>{{ post.body|safe }}</p>
+{% endblock %}
