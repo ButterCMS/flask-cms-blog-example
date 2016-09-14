@@ -37,7 +37,6 @@ def show_author(author_slug):
     
     try:
         author = response['data']
-        print author
     except:
         # Author was not found
         abort(404)
@@ -49,7 +48,6 @@ def show_category(category_slug):
     response = client.categories.get(category_slug, {'include':'recent_posts'})
     try:
         category = response['data']
-        print category
     except:
         # category was not found
         abort(404)
