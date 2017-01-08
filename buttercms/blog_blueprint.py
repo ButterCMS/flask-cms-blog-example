@@ -13,7 +13,7 @@ client = ButterCMS(auth_token)
 @blog.route('/')
 @blog.route('/page/<int:page>')
 def home(page=1):
-    response = client.posts.all(page=page, page_size=10)
+    response = client.posts.all({'page': 1, 'page_size': 10})
     posts = response['data'] 
     next_page = response['meta']['next_page']
     previous_page = response['meta']['previous_page']
