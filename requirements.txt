@@ -1,4 +1,4 @@
-buttercms-python==0.5
+buttercms-python==1.1
 click==6.6
 Flask==0.11.1
 Flask-Script==2.0.5
