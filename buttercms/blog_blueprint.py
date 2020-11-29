@@ -1,5 +1,5 @@
 from butter_cms import ButterCMS
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, Response
 from jinja2 import TemplateNotFound
 
 
