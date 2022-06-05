@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, Response
+from flask import Flask
 from buttercms.blog_blueprint import blog
 
 app = Flask(__name__)
