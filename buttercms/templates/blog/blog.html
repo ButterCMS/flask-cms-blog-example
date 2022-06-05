@@ -1,34 +1,30 @@
-<!doctype html>
-<html>
-  <head>
-    {% block head %}
-    <title>Flask blog powered by ButterCMS</title>
-    {% endblock %}
-  </head>
-  <body>
+<head>
+  {% block head %}
+  <title>Flask blog powered by ButterCMS</title>
+  {% endblock %}
+</head>
+
+<body>
+  <div>
+    {% block content %}
+
+    <h1>ButterCMS &lt;3 Flask</h1>
+    {% for post in posts %}
+    <div><a href="{{ url_for('blog.show_post', slug=post.slug) }}">{{ post.title }}</a></div>
+    {% endfor %}
+
+    <!-- Pagination links -->
+    <hr>
     <div>
-        {% block content %}
-        
-        <h1>ButterCMS &lt;3 Flask</h1>
-        {% for post in posts %}
-        <div><a href="{{ url_for('blog.show_post', slug=post.slug) }}">{{ post.title }}</a></div>
-        {% endfor %}
+      {% if previous_page %}
+      <a href="{{ url_for('blog.home', page=previous_page) }}">Prev</a>
+      {% endif %}
 
-        <!-- Pagination links -->
-        <hr>
-        <div>
-          {% if previous_page %}
-          <a href="{{ url_for('blog.home', page=previous_page) }}">Prev</a>
-          {% endif %}
-
-          {% if next_page %}
-          <a href="{{ url_for('blog.home', page=next_page) }}">Next</a>
-          {% endif %}
-        </div>
-
-        {% endblock %}
+      {% if next_page %}
+      <a href="{{ url_for('blog.home', page=next_page) }}">Next</a>
+      {% endif %}
     </div>
-  </body>
-</html>
 
-
+    {% endblock %}
+  </div>
+</body>
