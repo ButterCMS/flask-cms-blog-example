@@ -1,11 +1,11 @@
 from butter_cms import ButterCMS
 from flask import Blueprint, render_template, abort, Response
-
+import os
 
 blog = Blueprint('blog', __name__, template_folder='templates/blog')
 
 
-auth_token = "YOUR_API_TOKEN"
+auth_token = os.getenv("BUTTERCMS_API_TOKEN")
 client = ButterCMS(auth_token)
 
 
