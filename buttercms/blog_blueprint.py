@@ -29,7 +29,7 @@ def show_post(slug):
     response = client.posts.get(slug)
     try:
         post = response['data']
-    except:
+    except KeyError:
         # Post was not found
         abort(404)
     return render_template('post.html', post=post)
@@ -41,7 +41,7 @@ def show_author(author_slug):
 
     try:
         author = response['data']
-    except:
+    except KeyError:
         # Author was not found
         abort(404)
     return render_template('author.html', author=author)
@@ -55,7 +55,7 @@ def show_category(category_slug):
     )
     try:
         category = response['data']
-    except:
+    except KeyError:
         # category was not found
         abort(404)
     return render_template('category.html', category=category)
