@@ -1,6 +1,5 @@
 from butter_cms import ButterCMS
 from flask import Blueprint, render_template, abort, Response
-from jinja2 import TemplateNotFound
 
 
 blog = Blueprint('blog', __name__, template_folder='templates/blog')
@@ -14,10 +13,15 @@ client = ButterCMS(auth_token)
 @blog.route('/page/<int:page>')
 def home(page=1):
     response = client.posts.all({'page': 1, 'page_size': 10})
-    posts = response['data'] 
+    posts = response['data']
     next_page = response['meta']['next_page']
     previous_page = response['meta']['previous_page']
-    return render_template('blog.html', posts=posts, next_page=next_page, previous_page=previous_page)
+    return render_template(
+        'blog.html',
+        posts=posts,
+        next_page=next_page,
+        previous_page=previous_page
+    )
 
 
 @blog.route('/<slug>')
@@ -33,8 +37,8 @@ def show_post(slug):
 
 @blog.route('/author/<author_slug>')
 def show_author(author_slug):
-    response = client.authors.get(author_slug, {'include':'recent_posts'})
-    
+    response = client.authors.get(author_slug, {'include': 'recent_posts'})
+
     try:
         author = response['data']
     except:
@@ -45,7 +49,10 @@ def show_author(author_slug):
 
 @blog.route('/category/<category_slug>')
 def show_category(category_slug):
-    response = client.categories.get(category_slug, {'include':'recent_posts'})
+    response = client.categories.get(
+        category_slug,
+        {'include': 'recent_posts'}
+    )
     try:
         category = response['data']
     except:
@@ -70,4 +77,3 @@ def atom_feed():
 def sitemap():
     response = client.feeds.get('sitemap')
     return Response(response['data'], mimetype='text/xml')
-
