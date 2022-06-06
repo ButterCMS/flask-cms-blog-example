@@ -1,12 +1,11 @@
 from butter_cms import ButterCMS
 from flask import Blueprint, render_template, abort, Response
-from jinja2 import TemplateNotFound
-
+import os
 
 blog = Blueprint('blog', __name__, template_folder='templates/blog')
 
 
-auth_token = "YOUR_API_TOKEN"
+auth_token = os.getenv("BUTTERCMS_API_TOKEN")
 client = ButterCMS(auth_token)
 
 
@@ -14,10 +13,15 @@ client = ButterCMS(auth_token)
 @blog.route('/page/<int:page>')
 def home(page=1):
     response = client.posts.all({'page': 1, 'page_size': 10})
-    posts = response['data'] 
+    posts = response['data']
     next_page = response['meta']['next_page']
     previous_page = response['meta']['previous_page']
-    return render_template('blog.html', posts=posts, next_page=next_page, previous_page=previous_page)
+    return render_template(
+        'blog.html',
+        posts=posts,
+        next_page=next_page,
+        previous_page=previous_page
+    )
 
 
 @blog.route('/<slug>')
@@ -25,7 +29,7 @@ def show_post(slug):
     response = client.posts.get(slug)
     try:
         post = response['data']
-    except:
+    except KeyError:
         # Post was not found
         abort(404)
     return render_template('post.html', post=post)
@@ -33,11 +37,11 @@ def show_post(slug):
 
 @blog.route('/author/<author_slug>')
 def show_author(author_slug):
-    response = client.authors.get(author_slug, {'include':'recent_posts'})
-    
+    response = client.authors.get(author_slug, {'include': 'recent_posts'})
+
     try:
         author = response['data']
-    except:
+    except KeyError:
         # Author was not found
         abort(404)
     return render_template('author.html', author=author)
@@ -45,10 +49,13 @@ def show_author(author_slug):
 
 @blog.route('/category/<category_slug>')
 def show_category(category_slug):
-    response = client.categories.get(category_slug, {'include':'recent_posts'})
+    response = client.categories.get(
+        category_slug,
+        {'include': 'recent_posts'}
+    )
     try:
         category = response['data']
-    except:
+    except KeyError:
         # category was not found
         abort(404)
     return render_template('category.html', category=category)
@@ -70,4 +77,3 @@ def atom_feed():
 def sitemap():
     response = client.feeds.get('sitemap')
     return Response(response['data'], mimetype='text/xml')
-
