@@ -3,7 +3,7 @@
 ## Important Notice
 This project was created as an example use case of ButterCMS and Flask and will not be actively maintained. 
 
-If you’re interested in exploring the best, most up-to-date way to integrate Butter into Python Frameworks like Flast, you can check out the following resources:
+If you’re interested in exploring the best, most up-to-date way to integrate Butter into Python Frameworks like Flask, you can check out the following resources:
 
 ### Starter Projects
 
